@@ -1,0 +1,79 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    order: 1; /* Здесь порядок для основного режима */
+}
+
+.menu {
+    flex: 0 0 200px;
+    background-color: #CEB7EA;
+    color: black;
+    padding: 20px;
+    order: 0; /* Элемент меню идет первым в основном режиме */
+    height: auto;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu ul li {
+    margin-bottom: 10px;
+}
+
+.menu ul li a {
+    color: black;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 800px) {
+    body {
+        overflow-x: hidden; /* Запрещаем прокрутку по горизонтали */
+    }
+
+    .container {
+        flex-direction: column;
+    }
+    
+    .content {
+        order: 0; /* Элемент content идет первым в мобильном режиме */
+    }
+
+    .menu {
+        bottom:0;
+        width: auto;
+        height: auto;
+        justify-content: center; /* Располагаем элементы по центру */
+        padding: 10px 0; /* Добавляем отступы сверху и снизу */
+    }
+
+    .menu ul {
+        list-style: none;
+        display: flex;
+        padding: 0;
+        margin: 0;
+        flex-wrap: wrap; /* Разрешаем перенос элементов на новую строку */
+    }
+
+    .menu ul li {
+        margin: 0 10px; /* Отступы между элементами */
+    }
+
+    .menu ul li a {
+        color: black;
+        text-decoration: none;
+    }
+}
+

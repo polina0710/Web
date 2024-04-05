@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #370E5A;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #B385DB;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #7948A3f7;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #5B456F;
+        }
+
+        .error-message {
+            color: #370E5A;
+            margin-top: -15px;
+            margin-bottom: 10px;
+            font-size: 0.8em;
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .fig {
+         text-align: center; /* Выравнивание по центру */ 
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2 class="form-title">Регистрационная форма</h2>
+        <form id="dynamicForm" novalidate>
+            <!-- Form elements will be dynamically inserted here -->
+        </form>
+    </div>
+    <p class="fig"><img src="0469ed90c16d2776d06c0a16294ab1c3.jpg" height="450"></p> 
+
+    <script>
+        var formArray = [
+            { 
+                label: 'Email:', 
+                elemtype: 'email', 
+                name: 'email', 
+                width: 200, 
+                validation: 'email' 
+            },
+            { 
+                label: 'Телефонный номер:', 
+                elemtype: 'tel', 
+                name: 'phone', 
+                width: 200, 
+                validation: 'phone' 
+            },
+            { 
+                label: 'Отправить:', 
+                elemtype: 'submit', 
+                value: 'Отправить' 
+            }
+        ];
+
+        function createForm(formArray, formId) {
+            var form = document.getElementById(formId);
+
+            formArray.forEach(function(item) {
+                var label = document.createElement('label');
+                var errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message';
+
+                if (item.elemtype === 'email' || item.elemtype === 'tel') {
+                    var input = document.createElement('input');
+                    input.type = item.elemtype;
+                    input.name = item.name;
+                    input.style.width = item.width + 'px';
+                    input.required = true;
+
+                    input.addEventListener('blur', function(event) {
+                        validateField(event.target, item.validation);
+                    });
+                    label.textContent = item.label;
+                    label.appendChild(input);
+                } else if (item.elemtype === 'submit') {
+                    var submitInput = document.createElement('input');
+                    submitInput.type = 'submit';
+                    submitInput.value = item.value;
+                    label.appendChild(submitInput);
+                }
+
+                label.appendChild(errorMessage);
+                form.appendChild(label);
+            });
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                var isValid = true;
+                var formData = new FormData(form); 
+                formArray.forEach(function(item) {
+                    var inputs = form.querySelectorAll('[name="' + item.name + '"]');
+                    inputs.forEach(function(input) {
+                        if (!validateField(input, item.validation)) {
+                            isValid = false;
+                        }
+                    });
+                });
+
+                if (isValid) {
+                    alert('Форма успешно отправлена.');
+                    form.reset();
+                }
+            });
+        }
+
+        function validateField(element, rule) {
+            var value = element.value.trim();
+            var errorMessage = element.parentNode.querySelector('.error-message');
+
+            if (rule === 'email') {
+                if (!value.match(/^\S+@\S+\.\S+$/)) {
+                    errorMessage.textContent = 'Введите корректный email';
+                    return false;
+                }
+            } else if (rule === 'phone') {
+                if (!value.match(/^\+?\d{10,15}$/)) {
+                    errorMessage.textContent = 'Введите корректный телефонный номер';
+                    return false;
+                }
+            }
+            errorMessage.textContent = ''; 
+            return true;
+        }
+
+        createForm(formArray, 'dynamicForm');
+    </script>
+</body>
+</html>

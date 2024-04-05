@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Товары и цены</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .quantity-column {
+            background-color: #c2e8a9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Таблица товаров</h1>
+    <table>
+        <tr>
+            <th>Название товара</th>
+            <th>Стоимость</th>
+            <th class="quantity-column">Количество</th>
+        </tr>
+        <tr>
+            <td>Товар 1</td>
+            <td rowspan="3">1000 руб.</td>
+            <td class="quantity-column">10</td>
+        </tr>
+        <tr>
+            <td>Товар 2</td>
+            <td class="quantity-column">20</td>
+        </tr>
+        <tr>
+            <td>Товар 3</td>
+            <td class="quantity-column">30</td>
+        </tr>
+    </table>
+</body>
+</html>

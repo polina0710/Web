@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление информацией о рекламных кампаниях</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #FCD7E3;
+            margin: 0;
+            padding: 20px;
+            color: #fff;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #A2254D;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            background-color: #FCA6C1;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #EB618D;
+        }
+        img {
+            max-width: 65%; 
+            height: auto; 
+            display: block; 
+            margin: 20px auto; 
+        }  
+    </style>
+    <script src="page1.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>Рекламные кампании</h2>
+        <input class="button" onclick="addCampaign();" value="Ввод информации о кампаниях" type="button">
+        <input class="button" onclick="deleteCampaign();" value="Удаление информации о кампаниях" type="button">
+        <input class="button" onclick="getCampaign();" value="Получение информации о кампаниях" type="button">
+        <input class="button" onclick="listAllCampaigns();" value="Перечень всех кампаний" type="button">
+        <img src="8b0772f321bca2198113500167252a02.jpg">
+    </div>
+
+    <script>
+        function addCampaign() {
+    let key = prompt("Введите название рекламной кампании:");
+    if (key === null) {
+        console.log("Добавление кампании отменено.");
+        return; 
+    }
+    let value = prompt("Введите описание рекламной кампании:");
+    if (value === null) {
+        console.log("Добавление кампании отменено.");
+        return; 
+    }
+    Storage.AddValue(key, value);
+}
+
+function deleteCampaign() {
+    let key = prompt("Введите название рекламной кампании для удаления:");
+    if (Storage.DeleteValue(key)) {
+        alert("Кампания удалена.");
+    } else {
+        alert("Кампания не найдена.");
+    }
+}
+
+function getCampaign() {
+    let key = prompt("Введите название рекламной кампании для получения информации:");
+    let info = Storage.GetValue(key);
+    if (info !== undefined) {
+        alert("Название кампании: " + key + " Описание: " + info);
+    }
+     else {
+        alert("Информация о кампании не найдена.");
+    }
+}
+
+
+function listAllCampaigns() {
+    let keys = Storage.GetKeys();
+    if (keys.length === 0) {
+        alert("Рекламные кампании отсутствуют.");
+        return;
+    }
+    let campaignsInfo = keys.map(key => {
+        let description = Storage.GetValue(key);
+        return `Название кампании: ${key}, Описание: ${description}`;
+    }).join("\n");
+    alert(campaignsInfo);
+}
+
+
+    </script>
+</body>
+</html>
