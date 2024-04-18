@@ -2,61 +2,116 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<title>Рекламная кампания</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    body {
+        background-color: #b589eb;
+        color: white
+    }
+    .page {
+        display: none;
+        background-color: #b589eb;
+    }
+    .active {
+        display: block;
+    }
+    img {
+        margin: 2px;
+        display: block; 
+        width: 50%; 
+        height: auto; 
+    }
+    .button {
+        width: 300px;
+        height: 50px; 
+        font-size: 20px;
+        color: white;
+        background-color: #7d61a0;
+    }
+    .content-block {
+        margin-bottom: 20px; 
+        background-color: #b589eb;
+    }
+
+</style>
 </head>
 <body>
-<table id="campaignData">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Название кампании</th>
-      <th>Бюджет</th>
-      <th>Дата начала</th>
-      <th>Дата окончания</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
+
+<div id="home" class="page active">
+    <h1>Добро пожаловать в нашу Рекламную кампанию!</h1>
+    <p><big>Мы - ведущее рекламное агентство, нацеленное на создание инновационных и креативных рекламных кампаний для различных брендов и компаний. Наше агентство стремится к тому, чтобы каждая рекламная идея становилась не просто эффективной, но и запоминающейся, вызывающей эмоции и оставляющей яркий след в сердцах и умах аудитории.</big></p>
+    <div class="content-block">
+        <img src="1348c702-966d-475e-a815-5960e8b222f6.webp">
+        <button class="button" onclick="showPage('campaignData')">Перейти к кампаниям</button>
+    </div>
+</div>
+
+<div id="campaignData" class="page">
+    <h1>Данные кампании</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Название кампании</th>
+          <th>Бюджет</th>
+          <th>Дата начала</th>
+          <th>Дата окончания</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button class="button" onclick="showPage('home')">Вернуться на главную</button>
+</div>
 
 <script>
-$(document).ready(function() {
-  loadData();
-});
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+        });
 
-function loadData() {
-  var url = 'campaigns.json'; 
-
-  $.ajax({
-    url: url,
-    type: 'GET',
-    dataType: 'json',
-    success: function(data) {
-      dataLoaded(data);
-    },
-    error: function(jqXHR, textStatus, errorThrown) {
-      errorHandler(jqXHR, textStatus, errorThrown);
+        document.getElementById(pageId).classList.add('active');
     }
-  });
-}
 
-function dataLoaded(data) {
-  var tableBody = $('#campaignData tbody');
-  
-  data.campaigns.forEach(function(campaign) {
-    var row = $('<tr>');
-    row.append($('<td>').text(campaign.id));
-    row.append($('<td>').text(campaign.name));
-    row.append($('<td>').text(campaign.budget));
-    row.append($('<td>').text(campaign.startDate));
-    row.append($('<td>').text(campaign.endDate));
-    tableBody.append(row);
-  });
-}
+    $(document).ready(function() {
+      loadData();
+    });
 
-function errorHandler(jqXHR, textStatus, errorThrown) {
-  console.log('AJAX request error:', errorThrown);
-  alert("Ошибка: " + textStatus + ' ' + errorThrown);
-}
+    function loadData() {
+      var url = 'campaigns.json'; 
+
+      $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+          dataLoaded(data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          errorHandler(jqXHR, textStatus, errorThrown);
+        }
+      });
+    }
+
+    function dataLoaded(data) {
+      var tableBody = $('#campaignData tbody');
+      
+      data.campaigns.forEach(function(campaign) {
+        var row = $('<tr>');
+        row.append($('<td>').text(campaign.id));
+        row.append($('<td>').text(campaign.name));
+        row.append($('<td>').text(campaign.budget));
+        row.append($('<td>').text(campaign.startDate));
+        row.append($('<td>').text(campaign.endDate));
+        tableBody.append(row);
+      });
+    }
+
+    function errorHandler(jqXHR, textStatus, errorThrown) {
+      console.log('AJAX request error:', errorThrown);
+      alert("Ошибка: " + textStatus + ' ' + errorThrown);
+    }
 </script>
+
 </body>
 </html>
