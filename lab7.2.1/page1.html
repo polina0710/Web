@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<table id="campaignData">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Название кампании</th>
+      <th>Бюджет</th>
+      <th>Дата начала</th>
+      <th>Дата окончания</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+$(document).ready(function() {
+  loadData();
+});
+
+function loadData() {
+  var url = 'campaigns.json'; 
+
+  $.ajax({
+    url: url,
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+      dataLoaded(data);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      errorHandler(jqXHR, textStatus, errorThrown);
+    }
+  });
+}
+
+function dataLoaded(data) {
+  var tableBody = $('#campaignData tbody');
+  
+  data.campaigns.forEach(function(campaign) {
+    var row = $('<tr>');
+    row.append($('<td>').text(campaign.id));
+    row.append($('<td>').text(campaign.name));
+    row.append($('<td>').text(campaign.budget));
+    row.append($('<td>').text(campaign.startDate));
+    row.append($('<td>').text(campaign.endDate));
+    tableBody.append(row);
+  });
+}
+
+function errorHandler(jqXHR, textStatus, errorThrown) {
+  console.log('AJAX request error:', errorThrown);
+  alert("Ошибка: " + textStatus + ' ' + errorThrown);
+}
+</script>
+</body>
+</html>
